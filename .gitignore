@@ -1,0 +1,143 @@
+#-------------------------
+# Local server files
+#-------------------------
+docker-compose.override.yml
+Homestead.json
+Homestead.yaml
+
+#-------------------------
+# Composer
+#-------------------------
+vendor/
+
+#-------------------------
+# Private Assets
+#-------------------------
+1.DoNotUpload/
+app/Database/Migrations/*
+!app/Database/Migrations/.gitkeep
+app/Database/Seeds/*
+!app/Database/Seeds/.gitkeep
+
+#-------------------------
+# Public Generated Assets
+#-------------------------
+1.DoNotUpload/
+
+public/*
+!public/.htaccess
+!public/favicon.ico
+!public/index.php
+!public/robots.txt
+!public/.well-known
+!public/.well-known/GDPR.yml
+
+public/assets/*
+!public/assets/index.html
+
+public/vendors/*
+!public/vendors/index.html
+!public/vendors/.gitkeep
+
+public/assets/css/*
+!public/assets/css/.gitkeep
+
+public/assets/js/*
+!public/assets/js/.gitkeep
+
+public/uploads/*
+!public/uploads/index.html
+
+app/Database/Migrations/*
+!app/Database/Migrations/.gitkeep
+
+app/Database/Seeds/*
+!app/Database/Seeds/.gitkeep
+
+#-------------------------
+# Development only Files
+#-------------------------
+node_modules
+/mariadb
+/storage/minio
+#src/*
+
+#-------------------------
+# Environment Files
+#-------------------------
+# These should never be under version control,
+.env
+.env.backup
+.vagrant
+Vagrantfile
+
+#-------------------------
+# Temporary Files
+#-------------------------
+writable/cache/*
+!writable/cache/index.html
+
+writable/logs/*
+!writable/logs/index.html
+
+writable/session/*
+!writable/session/index.html
+
+writable/uploads/*
+!writable/uploads/index.html
+
+writable/debugbar/*
+!writable/debugbar/.gitkeep
+
+writable/database.db
+writable/**/*.db
+writable/**/*.sqlite
+
+
+npm-debug.log
+yarn-error.log
+php_errors.log
+.parcel-cache/*
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+dist
+dist-ssr
+*.local
+
+# Visual Studio Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.code-workspace
+
+/results/
+
+# Don't save phpunit under version control.
+build/
+coverage/
+phpunit
+phpunit.xml
+.phpunit.cache/
+*.cache
+
+
+# CS Fixer
+.php-cs-fixer.cache
+.php-cs-fixer.php
+
+
+.qodo
+.editorconfig
+
+# PHPUnit local configuration
+
