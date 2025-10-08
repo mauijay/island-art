@@ -6,18 +6,19 @@ Homestead.json
 Homestead.yaml
 
 #-------------------------
-# Composer
+# Composer (Updated for ci4 structure)
 #-------------------------
 vendor/
+ci4/vendor/
 
 #-------------------------
-# Private Assets
+# Private Assets (Updated for ci4 structure)
 #-------------------------
 1.DoNotUpload/
-app/Database/Migrations/*
-!app/Database/Migrations/.gitkeep
-app/Database/Seeds/*
-!app/Database/Seeds/.gitkeep
+ci4/app/Database/Migrations/*
+!ci4/app/Database/Migrations/.gitkeep
+ci4/app/Database/Seeds/*
+!ci4/app/Database/Seeds/.gitkeep
 
 #-------------------------
 # Public Generated Assets
@@ -48,12 +49,6 @@ public/assets/js/*
 public/uploads/*
 !public/uploads/index.html
 
-app/Database/Migrations/*
-!app/Database/Migrations/.gitkeep
-
-app/Database/Seeds/*
-!app/Database/Seeds/.gitkeep
-
 #-------------------------
 # Development only Files
 #-------------------------
@@ -63,35 +58,37 @@ node_modules
 #src/*
 
 #-------------------------
-# Environment Files
+# Environment Files (Never commit these!)
 #-------------------------
-# These should never be under version control,
+# These should never be under version control
 .env
 .env.backup
+ci4/.env
+ci4/.env.backup
 .vagrant
 Vagrantfile
 
 #-------------------------
-# Temporary Files
+# Temporary Files (ci4 structure)
 #-------------------------
-writable/cache/*
-!writable/cache/index.html
+ci4/writable/cache/*
+!ci4/writable/cache/index.html
 
-writable/logs/*
-!writable/logs/index.html
+ci4/writable/logs/*
+!ci4/writable/logs/index.html
 
-writable/session/*
-!writable/session/index.html
+ci4/writable/session/*
+!ci4/writable/session/index.html
 
-writable/uploads/*
-!writable/uploads/index.html
+ci4/writable/uploads/*
+!ci4/writable/uploads/index.html
 
-writable/debugbar/*
-!writable/debugbar/.gitkeep
+ci4/writable/debugbar/*
+!ci4/writable/debugbar/.gitkeep
 
-writable/database.db
-writable/**/*.db
-writable/**/*.sqlite
+ci4/writable/database.db
+ci4/writable/**/*.db
+ci4/writable/**/*.sqlite
 
 
 npm-debug.log
