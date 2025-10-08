@@ -13,10 +13,3 @@ parameters:
         - CodeIgniter\HTTP\IncomingRequest
     bootstrapFiles:
         - vendor/codeigniter4/framework/system/Test/bootstrap.php
-    codeigniter:
-        additionalModelNamespaces:
-            - App\Models\Finances
-            - Finances
-    ignoreErrors:
-        - '#Service method .* returns mixed#'
-        - '#Function singular not found#'

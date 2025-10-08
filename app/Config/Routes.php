@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use CodeIgniter\Router\RouteCollection;
 use App\Controllers\HomeController;
@@ -6,7 +6,6 @@ use App\Controllers\LegalController;
 use App\Controllers\CalendarController;
 use App\Controllers\ArtistsController;
 use App\Controllers\GalleriesController;
-
 
 /**
  * @var RouteCollection $routes

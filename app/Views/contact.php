@@ -5,9 +5,9 @@
 <!-- Contact Header -->
 <section class="bg-gradient-to-br from-blue-600 via-teal-500 to-green-500 py-16">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">IslandArtNews</h1>
+    <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Island Art Hawaiʻi</h1>
     <p class="text-xl text-blue-100 max-w-2xl mb-3 mx-auto">
-      Get in touch with the IslandArtNews team. We'd love to hear from you about exhibitions, submissions, or
+      Get in touch with the Island Art Hawaiʻi team. We'd love to hear from you about exhibitions, submissions, or
       collaborations.
     </p>
     <p class="text-lg text-blue-100 max-w-3xl mx-auto">
@@ -26,7 +26,7 @@
         <!-- Featured Logo -->
         <div class="flex justify-center mb-8">
           <div class="shadow-lg">
-            <img src="<?= base_url('uploads/images/logo.png') ?>" alt="IslandArtNews Logo"
+            <img src="<?= base_url('uploads/images/logo.png') ?>" alt="Island Art Hawaiʻi Logo"
               class="h-96 w-auto mx-auto object-contain">
           </div>
         </div>

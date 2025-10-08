@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * The environment testing is reserved for PHPUnit testing. It has special

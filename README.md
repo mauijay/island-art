@@ -688,7 +688,7 @@ npm run sync-version
 npm run changelog
 
 # Stage the updated changelog
-git add CHANGELOG.md
+git add .
 
 # Commit the changelog update
 git commit -m "docs: update changelog for upcoming release"
