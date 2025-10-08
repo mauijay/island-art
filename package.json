@@ -1,0 +1,41 @@
+{
+  "name": "island-art-news",
+  "version": "1.0.1",
+  "description": "Island Art News website - CodeIgniter 4 + Vite + Tailwind CSS v4",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "commit": "cz",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "changelog:first": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0",
+    "preview": "vite preview",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "format": "npm run prettier:fix && composer run cs-fix",
+    "sync-version": "node scripts/sync-version.js",
+    "bump:patch": "npm version patch && npm run sync-version && composer bump-version",
+    "bump:minor": "npm version minor && npm run sync-version && composer bump-version",
+    "bump:major": "npm version major && npm run sync-version && composer bump-version",
+    "version": "npm run sync-version && git add composer.json",
+    "postversion": "git push && git push --tags"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.14",
+    "autoprefixer": "^10.4.21",
+    "commitizen": "^4.3.1",
+    "conventional-changelog-cli": "^5.0.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "cross-env": "^10.1.0",
+    "postcss": "^8.5.6",
+    "prettier": "^3.6.2",
+    "prettier-plugin-tailwindcss": "^0.6.14",
+    "tailwindcss": "^4.1.14",
+    "vite": "^7.1.9"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}

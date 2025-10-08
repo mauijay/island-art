@@ -1,0 +1,23 @@
+{
+  "tailwindCSS.includeLanguages": {
+    "php": "html"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["class\\s*=\\s*[\"']([^\"']*)[\"']", "[\"'`]([^\"'`]*)[\"'`]"]
+  ],
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.suggestions": true,
+  "tailwindCSS.validate": true,
+  "tailwindCSS.colorDecorators": true,
+  "tailwindCSS.showPixelEquivalents": true,
+  "editor.colorDecorators": true,
+  "files.associations": {
+    "*.php": "php"
+  },
+  "css.colorDecorators.enable": true,
+  "editor.colorDecoratorsActivatedOn": ["editor", "colorPicker"],
+  "tailwindCSS.experimental.configFile": "./tailwind.config.js"
+}

@@ -1,0 +1,11 @@
+please audit my total project and make suggestions as necessary to produce a modern and stylish website that exudes a confidant artistic flair that is consistent with hawaiian art culture.
+
+I would like a home page to have a hero section, a recents news posts section and an art info section.
+
+the contact us page seems very incomplete.
+
+edit the galleries page to show an array of images with sample data i can work on later to complete myself.
+
+edit the artist page to highlight one artist per month and then have a section to showcase three other local artists.
+
+i will fix the submit art button later.

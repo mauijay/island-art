@@ -1,0 +1,22 @@
+parameters:
+    paths:
+        - app
+    level: 2
+    excludePaths:
+        - app/Views/*
+        - app/Config/Routes.php
+        - app/Database/Migrations/*
+        - app/Cells/*
+    universalObjectCratesClasses:
+        - CodeIgniter\Entity\Entity
+        - CodeIgniter\Validation\Validation
+        - CodeIgniter\HTTP\IncomingRequest
+    bootstrapFiles:
+        - vendor/codeigniter4/framework/system/Test/bootstrap.php
+    codeigniter:
+        additionalModelNamespaces:
+            - App\Models\Finances
+            - Finances
+    ignoreErrors:
+        - '#Service method .* returns mixed#'
+        - '#Function singular not found#'
