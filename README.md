@@ -350,9 +350,9 @@ npm run sync-version
 ### Files Updated During Version Sync
 
 - `package.json` - NPM package version
-- `composer.json` - Composer package version
-- `.env` - Application version (local only)
-- `.env.example` - Application version (tracked)
+- `ci4/composer.json` - Composer package version (in ci4 folder)
+- `ci4/.env` - Application version (local only, in ci4 folder)
+- `ci4/.env.example` - Application version (tracked, in ci4 folder)
 
 ### Version Display
 

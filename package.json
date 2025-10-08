@@ -1,6 +1,6 @@
 {
   "name": "island-art-news",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Island Art News website - CodeIgniter 4 + Vite + Tailwind CSS v4",
   "type": "module",
   "scripts": {
@@ -14,10 +14,10 @@
     "prettier:fix": "prettier --write .",
     "format": "npm run prettier:fix && composer run cs-fix",
     "sync-version": "node scripts/sync-version.js",
-    "bump:patch": "npm version patch && npm run sync-version && composer bump-version",
-    "bump:minor": "npm version minor && npm run sync-version && composer bump-version",
-    "bump:major": "npm version major && npm run sync-version && composer bump-version",
-    "version": "npm run sync-version && git add composer.json",
+    "bump:patch": "npm version patch && npm run sync-version",
+    "bump:minor": "npm version minor && npm run sync-version",
+    "bump:major": "npm version major && npm run sync-version",
+    "version": "npm run sync-version && git add ci4/composer.json",
     "postversion": "git push && git push --tags"
   },
   "devDependencies": {
