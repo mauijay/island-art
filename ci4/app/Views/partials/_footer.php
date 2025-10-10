@@ -100,10 +100,10 @@
       <div>
         <p class="font-semibold text-gray-800 dark:text-white">Resources</p>
         <div class="mt-5 flex flex-col items-start space-y-2">
-          <a href="/submit"
+          <a href="<?= route_to('art.submit') ?>"
             class="text-gray-600 transition-colors duration-300 hover:text-blue-500 hover:underline dark:text-gray-300 dark:hover:text-blue-400">Submit
             Artwork</a>
-          <a href="/news"
+          <a href="<?= route_to('news') ?>"
             class="text-gray-600 transition-colors duration-300 hover:text-blue-500 hover:underline dark:text-gray-300 dark:hover:text-blue-400">Latest
             News</a>
           <a href="<?= route_to('contact') ?>"
@@ -128,14 +128,26 @@
         <img src="/uploads/images/logo.png"
           alt="round logo image of palm tree, beach and sunset for <?= config('App')->siteName ?>"
           class="h-48 w-auto mr-3">
-        <a href="<?= site_url('/') ?>"
-          class="text-2xl font-bold text-gray-800 transition-colors duration-300 hover:text-gray-700 dark:text-white dark:hover:text-gray-300"><?= config('App')->siteName ?>
-        </a>
       </div>
-      <p class="mt-4 text-sm text-gray-500 dark:text-gray-300 sm:mt-0">
-        © <?php if (!empty(config('App')->copyrightHolder)): ?> Copyright <?= date('Y') ?>
-          <?= config('App')->copyrightHolder ?> - v<?= app_version() ?> - All Rights Reserved <?php endif ?>
-      </p>
+      <div
+        class="flex flex-col md:flex-row items-center justify-between mt-4 text-sm text-gray-500 dark:text-gray-300 sm:mt-0 gap-4">
+        <?php if (!empty(config('App')->copyrightHolder)): ?>
+          <div class="flex-1 text-xs md:text-sm p-3 sm:p-2 lg:p-1 md:pl-6">Copyright &copy;
+            <?= date("Y") . '~' . date("Y") + 1; ?>
+            <?= env('app.name', '808biz, Inc.') ?> - v<?= app_version() ?> - All Rights Reserved | <a
+              href="https://www.facebook.com/808biz" target="_blank" rel="noopener">@808businessSolutions</a> | <a
+              href="https://808.biz/?utm_source=808bs&utm_medium=footer&utm_campaign=website-redesign&utm_term=calendar%20scheduling%20tools&utm_content=salary-alert-1-allsalaries"
+              target="_blank" rel="noopener">808biz</a>
+            <p class="m-0">Developed and Maintained by <a href="https://808businesssolutions.com/" target="_blank"
+                title="Hawaii Business Development"><?= config('App')->copyrightHolder ?></a></p>
+          </div>
+        <?php endif ?>
+        <div class="flex-1 md:text-right text-xs md:text-sm p-3 sm:p-2 lg:p-1">
+          <a href="<?= url_to('privacy') ?>">Privacy Policy</a>
+          &middot;
+          <a href="<?= url_to('terms') ?>">Terms &amp; Conditions</a>
+        </div>
+      </div>
     </div>
   </div>
 </footer>

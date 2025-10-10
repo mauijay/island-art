@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Artwork Submission</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+      textarea {
+        height: 100px;
+      }
+      button {
+        background: #007cba;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #005a87;
+      }
+      .response {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 4px;
+      }
+      .success {
+        background: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
+      }
+      .error {
+        background: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Test Artwork Submission API</h1>
+    <p>This form tests the new database-driven artwork submission API.</p>
+
+    <form id="artworkForm" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="artist_name">Artist Name *</label>
+        <input
+          type="text"
+          id="artist_name"
+          name="artist_name"
+          required
+          value="Test Artist"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="artist_email">Artist Email *</label>
+        <input
+          type="email"
+          id="artist_email"
+          name="artist_email"
+          required
+          value="test@example.com"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="artist_phone">Artist Phone</label>
+        <input
+          type="tel"
+          id="artist_phone"
+          name="artist_phone"
+          value="(808) 555-0123"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="artist_location">Artist Location</label>
+        <input
+          type="text"
+          id="artist_location"
+          name="artist_location"
+          value="Honolulu, Hawaii"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="artist_bio">Artist Bio</label>
+        <textarea id="artist_bio" name="artist_bio">
+Test artist biography for API testing purposes.</textarea
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="artwork_title">Artwork Title *</label>
+        <input
+          type="text"
+          id="artwork_title"
+          name="artwork_title"
+          required
+          value="Test Artwork"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="artwork_medium">Artwork Medium *</label>
+        <input
+          type="text"
+          id="artwork_medium"
+          name="artwork_medium"
+          required
+          value="Digital Art"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="artwork_year">Year Created</label>
+        <input
+          type="number"
+          id="artwork_year"
+          name="artwork_year"
+          value="2024"
+          min="1800"
+          max="2024"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="artwork_width">Width (inches)</label>
+        <input
+          type="number"
+          id="artwork_width"
+          name="artwork_width"
+          value="24"
+          step="0.1"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="artwork_height">Height (inches)</label>
+        <input
+          type="number"
+          id="artwork_height"
+          name="artwork_height"
+          value="36"
+          step="0.1"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="artwork_description">Artwork Description *</label>
+        <textarea id="artwork_description" name="artwork_description" required>
+This is a test artwork submission to verify the database integration is working correctly.</textarea
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="artwork_for_sale">For Sale?</label>
+        <input
+          type="checkbox"
+          id="artwork_for_sale"
+          name="artwork_for_sale"
+          value="1"
+          checked
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="artwork_price">Price (USD)</label>
+        <input
+          type="number"
+          id="artwork_price"
+          name="artwork_price"
+          value="500"
+          step="0.01"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="artwork_image">Artwork Image *</label>
+        <input
+          type="file"
+          id="artwork_image"
+          name="artwork_image"
+          required
+          accept="image/*"
+        />
+        <small>Please select a JPG, JPEG, or PNG image (max 10MB)</small>
+      </div>
+
+      <button type="submit">Submit Artwork</button>
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+      document
+        .getElementById("artworkForm")
+        .addEventListener("submit", async function (e) {
+          e.preventDefault();
+
+          const responseDiv = document.getElementById("response");
+          responseDiv.innerHTML = "<p>Submitting artwork...</p>";
+
+          const formData = new FormData(this);
+
+          try {
+            const response = await fetch("/api/submit-artwork", {
+              method: "POST",
+              body: formData,
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+              responseDiv.innerHTML = `
+                        <div class="response success">
+                            <h3>Success!</h3>
+                            <p>${result.message}</p>
+                            ${result.artist_id ? `<p>Artist ID: ${result.artist_id}</p>` : ""}
+                            ${result.artwork_id ? `<p>Artwork ID: ${result.artwork_id}</p>` : ""}
+                        </div>
+                    `;
+            } else {
+              responseDiv.innerHTML = `
+                        <div class="response error">
+                            <h3>Error</h3>
+                            <p>${result.message}</p>
+                            ${result.errors ? `<pre>${JSON.stringify(result.errors, null, 2)}</pre>` : ""}
+                        </div>
+                    `;
+            }
+          } catch (error) {
+            responseDiv.innerHTML = `
+                    <div class="response error">
+                        <h3>Network Error</h3>
+                        <p>Failed to submit artwork: ${error.message}</p>
+                    </div>
+                `;
+          }
+        });
+    </script>
+  </body>
+</html>

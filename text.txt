@@ -1,0 +1,6 @@
+create a migration for Artists, Events, galleries, exhibitions.
+when an artist submits artwork:
+i would like to swap out the json code you wrote in ApiController with a database entry.
+i want the artists info to go to artist table, then create a user in users table and link the two with a foreign key.
+then i want the uploaded images to go to the images table, the artwork info to go to the Artwork table and link the two with a foreign key.
+make all necessary adjustments to this project to complete these tasks

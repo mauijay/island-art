@@ -4,7 +4,7 @@
 ![Vite](https://img.shields.io/badge/Vite-7.1.9-646CFF?style=flat-square&logo=vite)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.1.14-06B6D4?style=flat-square&logo=tailwindcss)
 ![PHP](https://img.shields.io/badge/PHP-8.0+-777BB4?style=flat-square&logo=php)
-![Version](https://img.shields.io/badge/Version-1.0.1-brightgreen?style=flat-square)
+![Version](https://img.shields.io/badge/Version-1.0.8-brightgreen?style=flat-square)
 
 A modern, beautiful website celebrating Hawaiian art culture and connecting the
 local creative community. Built with CodeIgniter 4, Vite, and Tailwind CSS v4
@@ -671,7 +671,7 @@ npm run commit
 # ? Are there any breaking changes? No
 # ? Does this change affect any open issues? No
 
-# Now run the version bump workflow
+# 1. Update version and sync everything
 # Patch version (0.3.9 → 0.3.10)
 npm run bump:patch
 
@@ -687,14 +687,11 @@ npm run sync-version
 # Generate/update changelog based on conventional commits
 npm run changelog
 
-# Stage the updated changelog
-git add .
+# 2. Commit the changes
+git add . && git commit -m "chore: bump version to 1.0.9"
 
-# Commit the changelog update
-git commit -m "docs: update changelog for upcoming release"
-
-# push it
-git push
+# 3. Push with tags
+git push && git push --tags
 
 
 

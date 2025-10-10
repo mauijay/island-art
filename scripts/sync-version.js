@@ -84,6 +84,22 @@ try {
   console.log(
     `✅ Updated ci4/.env.example app.version to ${version} (tracked)`
   );
+
+  // Update README.md version badge
+  const readmePath = join(rootDir, 'README.md');
+  if (existsSync(readmePath)) {
+    let readmeContent = readFileSync(readmePath, 'utf8');
+    const versionBadgeRegex = /(!\[Version\]\(https:\/\/img\.shields\.io\/badge\/Version-)([0-9]+\.[0-9]+\.[0-9]+)(-brightgreen\?style=flat-square\))/g;
+    
+    if (versionBadgeRegex.test(readmeContent)) {
+      readmeContent = readmeContent.replace(versionBadgeRegex, `$1${version}$3`);
+      writeFileSync(readmePath, readmeContent);
+      console.log(`✅ Updated README.md version badge to ${version}`);
+    } else {
+      console.log(`⚠️  No version badge found in README.md`);
+    }
+  }
+
   console.log(`📦 All versions are now in sync!`);
 } catch (error) {
   console.error('❌ Error syncing versions:', error.message);

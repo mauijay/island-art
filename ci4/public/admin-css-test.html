@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en" class="h-full">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin CSS Test - Island Art</title>
+    <script src="https://cdn.tailwindcss.com/3.4.0"></script>
+    <link rel="stylesheet" href="/assets/css/admin.css" />
+    <style>
+      /* Test dark mode toggle */
+      .dark-mode-toggle {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-100 transition-colors dark:bg-gray-900">
+    <!-- Dark Mode Toggle -->
+    <div class="fixed top-4 right-4 z-50">
+      <button
+        onclick="toggleDarkMode()"
+        class="dark-mode-toggle btn-admin-secondary"
+      >
+        🌙 Toggle Dark Mode
+      </button>
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+      <h1 class="mb-8 text-3xl font-bold text-gray-900 dark:text-white">
+        Admin CSS Components Test
+      </h1>
+
+      <!-- Admin Cards -->
+      <section class="mb-12">
+        <h2
+          class="mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-200"
+        >
+          Admin Cards
+        </h2>
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div class="admin-card">
+            <h3
+              class="mb-2 text-lg font-semibold text-gray-900 dark:text-white"
+            >
+              Basic Admin Card
+            </h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              This is a basic admin card component with proper styling.
+            </p>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon">📊</div>
+            <div class="admin-stat-value">1,234</div>
+            <div class="admin-stat-label">Total Users</div>
+          </div>
+
+          <div class="admin-stat-card">
+            <div class="admin-stat-icon">🎨</div>
+            <div class="admin-stat-value">567</div>
+            <div class="admin-stat-label">Artworks</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Admin Buttons -->
+      <section class="mb-12">
+        <h2
+          class="mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-200"
+        >
+          Admin Buttons
+        </h2>
+        <div class="flex flex-wrap gap-4">
+          <button class="btn-admin-primary">Primary Button</button>
+          <button class="btn-admin-secondary">Secondary Button</button>
+          <button class="btn-admin-danger">Danger Button</button>
+        </div>
+      </section>
+
+      <!-- Admin Forms -->
+      <section class="mb-12">
+        <h2
+          class="mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-200"
+        >
+          Admin Form Elements
+        </h2>
+        <div class="admin-card">
+          <form class="space-y-4">
+            <div>
+              <label
+                class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                >Name</label
+              >
+              <input
+                type="text"
+                class="admin-input"
+                placeholder="Enter your name"
+              />
+            </div>
+            <div>
+              <label
+                class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                >Email</label
+              >
+              <input
+                type="email"
+                class="admin-input"
+                placeholder="Enter your email"
+              />
+            </div>
+            <div>
+              <label
+                class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
+                >Message</label
+              >
+              <textarea
+                class="admin-input"
+                rows="4"
+                placeholder="Enter your message"
+              ></textarea>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Admin Alerts -->
+      <section class="mb-12">
+        <h2
+          class="mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-200"
+        >
+          Admin Alerts
+        </h2>
+        <div class="space-y-4">
+          <div class="admin-alert admin-alert-success">
+            <strong>Success!</strong> Your changes have been saved successfully.
+          </div>
+          <div class="admin-alert admin-alert-error">
+            <strong>Error!</strong> Something went wrong. Please try again.
+          </div>
+          <div class="admin-alert admin-alert-warning">
+            <strong>Warning!</strong> Please review your inputs before
+            proceeding.
+          </div>
+          <div class="admin-alert admin-alert-info">
+            <strong>Info!</strong> This is some useful information for you.
+          </div>
+        </div>
+      </section>
+
+      <!-- Admin Table -->
+      <section class="mb-12">
+        <h2
+          class="mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-200"
+        >
+          Admin Table
+        </h2>
+        <div class="admin-card overflow-hidden p-0">
+          <table class="admin-table">
+            <thead class="admin-table-header">
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody class="admin-table-body">
+              <tr>
+                <td>John Doe</td>
+                <td>john@example.com</td>
+                <td>Admin</td>
+                <td>
+                  <span
+                    class="rounded-full bg-green-100 px-2 py-1 text-xs text-green-800"
+                    >Active</span
+                  >
+                </td>
+                <td>
+                  <button class="btn-admin-secondary mr-2">Edit</button>
+                  <button class="btn-admin-danger">Delete</button>
+                </td>
+              </tr>
+              <tr>
+                <td>Jane Smith</td>
+                <td>jane@example.com</td>
+                <td>Artist</td>
+                <td>
+                  <span
+                    class="rounded-full bg-green-100 px-2 py-1 text-xs text-green-800"
+                    >Active</span
+                  >
+                </td>
+                <td>
+                  <button class="btn-admin-secondary mr-2">Edit</button>
+                  <button class="btn-admin-danger">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Admin Navigation Demo -->
+      <section class="mb-12">
+        <h2
+          class="mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-200"
+        >
+          Admin Navigation
+        </h2>
+        <div class="admin-card">
+          <nav class="space-y-2">
+            <a href="#" class="admin-nav-item active">
+              <span class="admin-nav-icon">🏠</span>
+              Dashboard
+            </a>
+            <a href="#" class="admin-nav-item">
+              <span class="admin-nav-icon">👥</span>
+              Users
+            </a>
+            <a href="#" class="admin-nav-item">
+              <span class="admin-nav-icon">🎨</span>
+              Artworks
+            </a>
+            <a href="#" class="admin-nav-item">
+              <span class="admin-nav-icon">🏛️</span>
+              Galleries
+            </a>
+            <a href="#" class="admin-nav-item">
+              <span class="admin-nav-icon">⚙️</span>
+              Settings
+            </a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- File Upload Demo -->
+      <section class="mb-12">
+        <h2
+          class="mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-200"
+        >
+          File Upload
+        </h2>
+        <div class="admin-card">
+          <div class="admin-file-upload">
+            <p class="mb-2 text-gray-500 dark:text-gray-400">
+              <span class="text-2xl">📁</span>
+            </p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              Click to upload or drag and drop files here
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Loading Spinner Demo -->
+      <section class="mb-12">
+        <h2
+          class="mb-6 text-2xl font-semibold text-gray-800 dark:text-gray-200"
+        >
+          Loading States
+        </h2>
+        <div class="admin-card">
+          <div class="flex items-center space-x-4">
+            <div class="admin-loading"></div>
+            <span class="text-gray-600 dark:text-gray-400">Loading...</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      function toggleDarkMode() {
+        document.documentElement.classList.toggle("dark");
+        localStorage.setItem(
+          "darkMode",
+          document.documentElement.classList.contains("dark")
+        );
+      }
+
+      // Load dark mode preference
+      if (localStorage.getItem("darkMode") === "true") {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+  </body>
+</html>

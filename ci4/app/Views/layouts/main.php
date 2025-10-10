@@ -11,6 +11,7 @@
   <?= $this->include('partials/_footer') ?>
   <?= $this->renderSection('modals') ?>
   <?= $this->include('modals/logout') ?>
+  <?= $this->include('modals/submit_art') ?>
   <?= $this->include('partials/_js') ?>
   <?= $this->renderSection('scripts') ?>
   <?= $this->include('partials/_notifications.php') ?>

@@ -1,0 +1,35 @@
+#!/bin/sh
+#
+# Git Pre-Commit Hook for Version Sync
+#
+# This hook automatically updates README.md when composer.json version changes
+# 
+# To install:
+# cp scripts/pre-commit .git/hooks/pre-commit
+# chmod +x .git/hooks/pre-commit
+#
+
+# Check if composer.json is being committed
+if git diff --cached --name-only | grep -q "ci4/composer.json"; then
+    echo "🔄 Detected composer.json changes, checking version..."
+    
+    # Get the new version from staged composer.json
+    NEW_VERSION=$(git show :ci4/composer.json | grep '"version"' | sed -E 's/.*"version": "([^"]+)".*/\1/')
+    
+    if [ ! -z "$NEW_VERSION" ]; then
+        echo "📦 New version detected: $NEW_VERSION"
+        
+        # Run the version sync script
+        php scripts/sync-version.php
+        
+        # Check if README.md was modified
+        if git diff --quiet README.md; then
+            echo "ℹ️  README.md version already up to date"
+        else
+            echo "✅ README.md version updated, adding to commit..."
+            git add README.md
+        fi
+    fi
+fi
+
+exit 0

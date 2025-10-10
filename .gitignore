@@ -19,6 +19,9 @@ ci4/app/Database/Migrations/*
 !ci4/app/Database/Migrations/.gitkeep
 ci4/app/Database/Seeds/*
 !ci4/app/Database/Seeds/.gitkeep
+.github/copilot-instructions.md
+todo.md
+todo.txt
 
 #-------------------------
 # Public Generated Assets
@@ -65,6 +68,7 @@ node_modules
 .env.backup
 ci4/.env
 ci4/.env.backup
+ci4/app/Config/Admin.php
 .vagrant
 Vagrantfile
 

@@ -40,7 +40,9 @@
       <a class="transform text-gray-700 transition-colors duration-300 hover:text-blue-500 dark:text-gray-200 dark:hover:text-blue-400 lg:mx-8"
         href="<?= route_to('contact') ?>">Contact</a>
     </div>
-    <a class="mt-4 block rounded-lg bg-blue-600 px-6 py-2.5 text-center font-medium capitalize leading-5 text-white hover:bg-blue-500 lg:mt-0 lg:w-auto"
-      href="<?= route_to('art.submit') ?>"> Submit Art </a>
+    <button type="button" id="submitArtBtn"
+      class="mt-4 block rounded-lg bg-blue-600 px-6 py-2.5 text-center font-medium capitalize leading-5 text-white hover:bg-blue-500 lg:mt-0 lg:w-auto cursor-pointer transition-all transform hover:scale-105">
+      Submit Art
+    </button>
   </div>
 </nav>

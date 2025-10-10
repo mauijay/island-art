@@ -5,126 +5,174 @@
  */
 
 if (!function_exists('vite_get_dev_server_url')) {
-    /**
-     * Get the Vite dev server URL (checks multiple ports)
-     */
-    function vite_get_dev_server_url(): ?string
-    {
-        $ports = [3000, 3001, 3002, 3003]; // Check common ports
-        $context = stream_context_create([
-          'http' => [
-            'timeout' => 0.2, // Reduced from 1 second to 0.2 seconds
-            'ignore_errors' => true
-          ]
-        ]);
+  /**
+   * Get the Vite dev server URL (checks multiple ports)
+   */
+  function vite_get_dev_server_url(): ?string
+  {
+    $ports   = [3000, 3001, 3002, 3003]; // Check common ports
+    $context = stream_context_create([
+      'http' => [
+        'timeout' => 0.2, // Reduced from 1 second to 0.2 seconds
+        'ignore_errors' => true
+      ]
+    ]);
 
-        foreach ($ports as $port) {
-            $url = "http://localhost:$port";
-            if (@file_get_contents($url, false, $context) !== false) {
-                return $url;
-            }
-        }
-
-        return null;
+    foreach ($ports as $port) {
+      $url = "http://localhost:$port";
+      if (@file_get_contents($url, false, $context) !== false) {
+        return $url;
+      }
     }
+
+    return null;
+  }
 }
 
 if (!function_exists('vite_asset')) {
-    /**
-     * Generate Vite asset URL for development or production
-     */
-    function vite_asset(string $entry): string
-    {
-        $isDev = ENVIRONMENT === 'development';
+  /**
+   * Generate Vite asset URL for development or production
+   */
+  function vite_asset(string $entry): string
+  {
+    $isDev = ENVIRONMENT === 'development';
 
-        if ($isDev) {
-            $viteDevServer = vite_get_dev_server_url();
+    if ($isDev) {
+      $viteDevServer = vite_get_dev_server_url();
 
-            if ($viteDevServer) {
-                return $viteDevServer . '/' . $entry;
-            }
-        }
-
-        // Production mode or dev server not running - use manifest
-        return vite_manifest_asset($entry);
+      if ($viteDevServer) {
+        return $viteDevServer . '/' . $entry;
+      }
     }
+
+    // Production mode or dev server not running - use manifest
+    return vite_manifest_asset($entry);
+  }
 }
 
 if (!function_exists('vite_manifest_asset')) {
-    /**
-     * Get asset path from Vite manifest
-     */
-    function vite_manifest_asset(string $entry): string
-    {
-        static $manifest = null;
+  /**
+   * Get asset path from Vite manifest
+   */
+  function vite_manifest_asset(string $entry): string
+  {
+    static $manifest = null;
 
-        if ($manifest === null) {
-            $manifestPath = FCPATH . 'assets/.vite/manifest.json';
+    if ($manifest === null) {
+      $manifestPath = FCPATH . 'assets/.vite/manifest.json';
 
-            if (file_exists($manifestPath)) {
-                $manifest = json_decode(file_get_contents($manifestPath), true);
-            } else {
-                $manifest = [];
-            }
-        }
-
-        if (isset($manifest[$entry])) {
-            return base_url('assets/' . $manifest[$entry]['file']);
-        }
-
-        // Fallback for missing manifest
-        return base_url('assets/' . $entry);
+      if (file_exists($manifestPath)) {
+        $manifest = json_decode(file_get_contents($manifestPath), true);
+      } else {
+        $manifest = [];
+      }
     }
+
+    if (isset($manifest[$entry])) {
+      return base_url('assets/' . $manifest[$entry]['file']);
+    }
+
+    // Fallback for missing manifest
+    return base_url('assets/' . $entry);
+  }
 }
 
 if (!function_exists('vite_dev_scripts')) {
-    /**
-     * Include Vite development scripts
-     */
-    function vite_dev_scripts(): string
-    {
-        $isDev = ENVIRONMENT === 'development';
+  /**
+   * Include Vite development scripts
+   */
+  function vite_dev_scripts(): string
+  {
+    $isDev = ENVIRONMENT === 'development';
 
-        if (!$isDev) {
-            return '';
-        }
-
-        $viteDevServer = vite_get_dev_server_url();
-
-        if ($viteDevServer) {
-            return '<script type="module" src="' . $viteDevServer . '/@vite/client"></script>';
-        }
-
-        return '';
+    if (!$isDev) {
+      return '';
     }
+
+    $viteDevServer = vite_get_dev_server_url();
+
+    if ($viteDevServer) {
+      return '<script type="module" src="' . $viteDevServer . '/@vite/client"></script>';
+    }
+
+    return '';
+  }
+}
+
+if (!function_exists('vite_css')) {
+  /**
+   * Generate CSS link tags for Vite assets
+   */
+  function vite_css(array $entries): string
+  {
+    $output = '';
+    foreach ($entries as $entry) {
+      if (ENVIRONMENT === 'development') {
+        $viteDevServer = vite_get_dev_server_url();
+        if ($viteDevServer) {
+          // In development, CSS is handled by JS
+          continue;
+        }
+      }
+
+      // Fallback to direct asset path
+      $assetPath = str_replace('resources/', 'assets/', $entry);
+      $output .= '<link rel="stylesheet" href="' . base_url($assetPath) . '">' . "\n";
+    }
+    return $output;
+  }
+}
+
+if (!function_exists('vite_js')) {
+  /**
+   * Generate script tags for Vite assets
+   */
+  function vite_js(array $entries): string
+  {
+    $output = '';
+    foreach ($entries as $entry) {
+      if (ENVIRONMENT === 'development') {
+        $viteDevServer = vite_get_dev_server_url();
+        if ($viteDevServer) {
+          $output .= '<script type="module" src="' . $viteDevServer . '/' . $entry . '"></script>' . "\n";
+          continue;
+        }
+      }
+
+      // Fallback to direct asset path
+      $assetPath = str_replace('resources/', 'assets/', $entry);
+      $output .= '<script src="' . base_url($assetPath) . '"></script>' . "\n";
+    }
+    return $output;
+  }
 }
 
 if (!function_exists('vite_css_assets')) {
-    /**
-     * Get CSS assets from manifest for production
-     */
-    function vite_css_assets(string $entry): array
-    {
-        static $manifest = null;
+  /**
+   * Get CSS assets from manifest for production
+   */
+  function vite_css_assets(string $entry): array
+  {
+    static $manifest = null;
 
-        if ($manifest === null) {
-            $manifestPath = FCPATH . 'assets/.vite/manifest.json';
+    if ($manifest === null) {
+      $manifestPath = FCPATH . 'assets/.vite/manifest.json';
 
-            if (file_exists($manifestPath)) {
-                $manifest = json_decode(file_get_contents($manifestPath), true);
-            } else {
-                $manifest = [];
-            }
-        }
-
-        $cssAssets = [];
-
-        if (isset($manifest[$entry]['css'])) {
-            foreach ($manifest[$entry]['css'] as $cssFile) {
-                $cssAssets[] = base_url('assets/' . $cssFile);
-            }
-        }
-
-        return $cssAssets;
+      if (file_exists($manifestPath)) {
+        $manifest = json_decode(file_get_contents($manifestPath), true);
+      } else {
+        $manifest = [];
+      }
     }
+
+    $cssAssets = [];
+
+    if (isset($manifest[$entry]['css'])) {
+      foreach ($manifest[$entry]['css'] as $cssFile) {
+        $cssAssets[] = base_url('assets/' . $cssFile);
+      }
+    }
+
+    return $cssAssets;
+  }
 }
