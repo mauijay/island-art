@@ -4,7 +4,7 @@
 ![Vite](https://img.shields.io/badge/Vite-7.1.9-646CFF?style=flat-square&logo=vite)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.1.14-06B6D4?style=flat-square&logo=tailwindcss)
 ![PHP](https://img.shields.io/badge/PHP-8.0+-777BB4?style=flat-square&logo=php)
-![Version](https://img.shields.io/badge/Version-1.0.8-brightgreen?style=flat-square)
+![Version](https://img.shields.io/badge/Version-1.0.9-brightgreen?style=flat-square)
 
 A modern, beautiful website celebrating Hawaiian art culture and connecting the
 local creative community. Built with CodeIgniter 4, Vite, and Tailwind CSS v4
