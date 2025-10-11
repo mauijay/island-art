@@ -1,6 +1,6 @@
 {
   "name": "island-art-news",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Island Art News website - CodeIgniter 4 + Vite + Tailwind CSS v4",
   "type": "module",
   "scripts": {
