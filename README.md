@@ -680,10 +680,11 @@ npm run bump:major    # 1.0.9 → 2.0.0
 # Manual sync only
 npm run sync-version
 
-# Generate/update changelog based on conventional commits
-npm run changelog
+
 
 # 2. Commit the changes
+# Generate/update changelog , Commit the changes
+npm run changelog
 git add . && git commit -m "chore: bump version to 1.0.9"
 
 # 3. Push with tags
