@@ -672,16 +672,12 @@ npm run commit
 # ? Does this change affect any open issues? No
 
 # 1. Update version and sync everything
-# Patch version (0.3.9 → 0.3.10)
-npm run bump:patch
+# Clean, single execution - no duplicates
+npm run bump:patch    # 1.0.9 → 1.0.10
+npm run bump:minor    # 1.0.9 → 1.1.0
+npm run bump:major    # 1.0.9 → 2.0.0
 
-# Minor version (0.3.9 → 0.4.0)
-npm run bump:minor
-
-# Major version (0.3.9 → 1.0.0)
-npm run bump:major
-
-# Just sync existing versions
+# Manual sync only
 npm run sync-version
 
 # Generate/update changelog based on conventional commits

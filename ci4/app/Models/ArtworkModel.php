@@ -84,26 +84,61 @@ class ArtworkModel extends Model {
   protected $updatedField = 'updated_at';
   protected $deletedField = 'deleted_at';
 
-  protected $validationRules = [
-    'artist_id' => 'required|integer|is_not_unique[artists.id]',
-    'title' => 'required|min_length[2]|max_length[255]',
-    'slug' => 'required|alpha_dash|max_length[255]|is_unique[artworks.slug,id,{id}]',
-    'description' => 'permit_empty|max_length[5000]',
-    'medium' => 'permit_empty|max_length[100]',
-    'style' => 'permit_empty|max_length[100]',
-    'category' => 'permit_empty|in_list[painting,sculpture,photography,digital,mixed_media,drawing,printmaking,textile,ceramics,jewelry,other]',
-    'dimensions_height' => 'permit_empty|decimal|greater_than[0]',
-    'dimensions_width' => 'permit_empty|decimal|greater_than[0]',
-    'dimensions_depth' => 'permit_empty|decimal|greater_than[0]',
-    'dimensions_unit' => 'permit_empty|in_list[inches,cm,feet,meters]',
-    'weight' => 'permit_empty|decimal|greater_than[0]',
-    'weight_unit' => 'permit_empty|in_list[lbs,kg,oz,grams]',
-    'year_created' => 'permit_empty|integer|greater_than[1800]|less_than_equal_to[' . date('Y') . ']',
-    'price' => 'permit_empty|decimal|greater_than_equal_to[0]',
-    'currency' => 'permit_empty|max_length[3]',
-    'condition_rating' => 'permit_empty|in_list[excellent,very_good,good,fair,poor]',
-    'status' => 'permit_empty|in_list[draft,pending,approved,rejected,archived]'
-  ];
+  protected $validationRules = [];
+
+  /**
+   * Get validation rules with dynamic values
+   */
+  public function getValidationRules(array $options = []): array
+  {
+    return [
+      'artist_id' => 'required|integer|is_not_unique[artists.id]',
+      'title' => 'required|min_length[2]|max_length[255]',
+      'slug' => 'required|alpha_dash|max_length[255]|is_unique[artworks.slug,id,{id}]',
+      'description' => 'permit_empty|max_length[5000]',
+      'medium' => 'permit_empty|max_length[100]',
+      'style' => 'permit_empty|max_length[100]',
+      'category' => 'permit_empty|in_list[painting,sculpture,photography,digital,mixed_media,drawing,printmaking,textile,ceramics,jewelry,other]',
+      'dimensions_height' => 'permit_empty|decimal|greater_than[0]',
+      'dimensions_width' => 'permit_empty|decimal|greater_than[0]',
+      'dimensions_depth' => 'permit_empty|decimal|greater_than[0]',
+      'dimensions_unit' => 'permit_empty|in_list[inches,cm,feet,meters]',
+      'weight' => 'permit_empty|decimal|greater_than[0]',
+      'weight_unit' => 'permit_empty|in_list[lbs,kg,oz,grams]',
+      'year_created' => 'permit_empty|integer|greater_than[1800]|less_than_equal_to[' . date('Y') . ']',
+      'price' => 'permit_empty|decimal|greater_than_equal_to[0]',
+      'currency' => 'permit_empty|max_length[3]',
+      'condition_rating' => 'permit_empty|in_list[excellent,very_good,good,fair,poor]',
+      'status' => 'permit_empty|in_list[draft,pending,approved,rejected,archived]'
+    ];
+  }
+
+  /**
+   * Override the validate method to use dynamic rules
+   */
+  public function validate($data): bool
+  {
+    $this->validationRules = $this->getValidationRules();
+    return parent::validate($data);
+  }
+
+  /**
+   * Override insert to ensure validation rules are set
+   */
+  public function insert($data = null, bool $returnID = true)
+  {
+    $this->validationRules = $this->getValidationRules();
+    return parent::insert($data, $returnID);
+  }
+
+  /**
+   * Override update to ensure validation rules are set
+   */
+  public function update($id = null, $data = null): bool
+  {
+    $this->validationRules = $this->getValidationRules();
+    return parent::update($id, $data);
+  }
 
   protected $validationMessages = [
     'artist_id' => [
@@ -132,27 +167,27 @@ class ArtworkModel extends Model {
   // Relationships
   public function artist()
   {
-    return $this->belongsTo(ArtistModel::class, 'artist_id');
+    return $this->belongsTo(\App\Models\ArtistModel::class, 'artist_id');
   }
 
   public function gallery()
   {
-    return $this->belongsTo(GalleryModel::class, 'gallery_id');
+    return $this->belongsTo(\App\Models\GalleryModel::class, 'gallery_id');
   }
 
   public function exhibition()
   {
-    return $this->belongsTo(ExhibitionModel::class, 'exhibition_id');
+    return $this->belongsTo(\App\Models\ExhibitionModel::class, 'exhibition_id');
   }
 
   public function images()
   {
-    return $this->hasMany(ImageModel::class, 'artwork_id');
+    return $this->hasMany(\App\Models\ImageModel::class, 'artwork_id');
   }
 
   public function featuredImage()
   {
-    return $this->belongsTo(ImageModel::class, 'featured_image_id');
+    return $this->belongsTo(\App\Models\ImageModel::class, 'featured_image_id');
   }
 
   // Custom methods
@@ -165,7 +200,7 @@ class ArtworkModel extends Model {
       ->findAll($limit);
   }
 
-  public function getPublishedArtworks(int $limit = null): array
+  public function getPublishedArtworks(?int $limit = null): array
   {
     $query = $this->where('is_published', 1)
       ->where('status', 'approved')
@@ -174,7 +209,7 @@ class ArtworkModel extends Model {
     return $limit ? $query->findAll($limit) : $query->findAll();
   }
 
-  public function getArtworksByArtist(int $artistId, int $limit = null): array
+  public function getArtworksByArtist(int $artistId, ?int $limit = null): array
   {
     $query = $this->where('artist_id', $artistId)
       ->where('is_published', 1)
@@ -184,7 +219,7 @@ class ArtworkModel extends Model {
     return $limit ? $query->findAll($limit) : $query->findAll();
   }
 
-  public function getArtworksByGallery(int $galleryId, int $limit = null): array
+  public function getArtworksByGallery(int $galleryId, ?int $limit = null): array
   {
     $query = $this->where('gallery_id', $galleryId)
       ->where('is_published', 1)
@@ -194,7 +229,7 @@ class ArtworkModel extends Model {
     return $limit ? $query->findAll($limit) : $query->findAll();
   }
 
-  public function getArtworksByCategory(string $category, int $limit = null): array
+  public function getArtworksByCategory(string $category, ?int $limit = null): array
   {
     $query = $this->where('category', $category)
       ->where('is_published', 1)
@@ -204,7 +239,7 @@ class ArtworkModel extends Model {
     return $limit ? $query->findAll($limit) : $query->findAll();
   }
 
-  public function getArtworksForSale(int $limit = null): array
+  public function getArtworksForSale(?int $limit = null): array
   {
     $query = $this->where('is_for_sale', 1)
       ->where('is_sold', 0)
@@ -232,15 +267,16 @@ class ArtworkModel extends Model {
 
   public function getArtworkWithDetails(int $artworkId): ?array
   {
+    /** @var array|null $artwork */
     $artwork = $this->find($artworkId);
     if (!$artwork) {
       return null;
     }
 
     // Load related data
-    $artistModel  = new ArtistModel();
-    $galleryModel = new GalleryModel();
-    $imageModel   = new ImageModel();
+    $artistModel  = new \App\Models\ArtistModel();
+    $galleryModel = new \App\Models\GalleryModel();
+    $imageModel   = new \App\Models\ImageModel();
 
     $artwork['artist'] = $artistModel->find($artwork['artist_id']);
 
@@ -270,7 +306,7 @@ class ArtworkModel extends Model {
       ->update();
   }
 
-  public function markAsSold(int $artworkId, string $saleDate = null): bool
+  public function markAsSold(int $artworkId, ?string $saleDate = null): bool
   {
     $data = [
       'is_sold' => 1,

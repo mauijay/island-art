@@ -2,11 +2,11 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\API\ResponseTrait;
 use App\Models\ArtistModel;
 use App\Models\ArtworkModel;
 use App\Models\ImageModel;
 use App\Models\UserModel;
+use CodeIgniter\API\ResponseTrait;
 
 class ApiController extends BaseController {
   use ResponseTrait;
@@ -409,6 +409,233 @@ class ApiController extends BaseController {
     }
 
     return 'other';
+  }
+
+  /**
+   * Newsletter subscription handler
+   */
+  public function subscribeNewsletter()
+  {
+    $request = service('request');
+
+    // Check if request is POST
+    if (strtolower($request->getMethod()) !== 'post') {
+      return $this->fail([
+        'success' => false,
+        'message' => 'Invalid request method: ' . $request->getMethod()
+      ], 405);
+    }
+
+    // Validation rules
+    $validationRules = [
+      'newsletter_name' => 'required|min_length[2]|max_length[100]',
+      'newsletter_email' => 'required|valid_email|max_length[255]',
+      'frequency' => 'permit_empty|in_list[weekly,biweekly,monthly,events]',
+      'interests' => 'permit_empty'
+    ];
+
+    $validationMessages = [
+      'newsletter_name' => [
+        'required' => 'Name is required',
+        'min_length' => 'Name must be at least 2 characters',
+        'max_length' => 'Name cannot exceed 100 characters'
+      ],
+      'newsletter_email' => [
+        'required' => 'Email address is required',
+        'valid_email' => 'Please enter a valid email address',
+        'max_length' => 'Email cannot exceed 255 characters'
+      ]
+    ];
+
+    // Validate input
+    if (!$this->validate($validationRules, $validationMessages)) {
+      return $this->fail([
+        'success' => false,
+        'message' => 'Validation failed',
+        'errors' => $this->validator->getErrors()
+      ], 400);
+    }
+
+    try {
+      // Check if newsletter_subscribers table exists
+      $db = \Config\Database::connect();
+
+      if (!$db->tableExists('newsletter_subscribers')) {
+        return $this->respond([
+          'success' => true,
+          'message' => 'Thank you for your interest! Newsletter feature is coming soon.'
+        ]);
+      }
+
+      // Check if email is already subscribed
+      $existing = $db->table('newsletter_subscribers')
+        ->where('email', $request->getPost('newsletter_email'))
+        ->get()
+        ->getRow();
+
+      if ($existing) {
+        return $this->respond([
+          'success' => true,
+          'message' => 'You are already subscribed to our newsletter!'
+        ]);
+      }
+
+      // Process interests
+      $interests = $request->getPost('interests') ?? [];
+      if (is_array($interests)) {
+        $interests = implode(',', $interests);
+      }
+
+      // Prepare subscription data
+      $subscriptionData = [
+        'name' => $request->getPost('newsletter_name'),
+        'email' => $request->getPost('newsletter_email'),
+        'frequency' => $request->getPost('frequency') ?? 'weekly',
+        'interests' => $interests,
+        'status' => 'active',
+        'subscribed_at' => date('Y-m-d H:i:s'),
+        'ip_address' => $request->getIPAddress(),
+        'user_agent' => $request->getUserAgent()->getAgentString(),
+        'source' => 'website_footer'
+      ];
+
+      // Insert subscription
+      $result = $db->table('newsletter_subscribers')->insert($subscriptionData);
+
+      if (!$result) {
+        throw new \Exception('Failed to save subscription');
+      }
+
+      // Send welcome email
+      $this->sendWelcomeEmail([
+        'name' => $request->getPost('newsletter_name'),
+        'email' => $request->getPost('newsletter_email'),
+        'frequency' => $request->getPost('frequency') ?? 'weekly'
+      ]);
+
+      // Send admin notification
+      $this->sendSubscriptionNotification([
+        'name' => $request->getPost('newsletter_name'),
+        'email' => $request->getPost('newsletter_email'),
+        'frequency' => $request->getPost('frequency') ?? 'weekly',
+        'interests' => $interests
+      ]);
+
+      return $this->respond([
+        'success' => true,
+        'message' => 'Successfully subscribed! Welcome to our art community.',
+        'data' => [
+          'email' => $request->getPost('newsletter_email'),
+          'frequency' => $request->getPost('frequency') ?? 'weekly'
+        ]
+      ]);
+
+    } catch (\Exception $e) {
+      log_message('error', 'Newsletter subscription error: ' . $e->getMessage());
+      return $this->fail([
+        'success' => false,
+        'message' => 'An error occurred while processing your subscription. Please try again.',
+        'debug' => ENVIRONMENT === 'development' ? $e->getMessage() : null
+      ], 500);
+    }
+  }
+
+  /**
+   * Send welcome email to new newsletter subscriber
+   */
+  private function sendWelcomeEmail($data)
+  {
+    $email = \Config\Services::email();
+
+    try {
+      $email->setFrom('hello@islandart.com', 'Island Art Hawaiʻi');
+      $email->setTo($data['email']);
+      $email->setSubject('Welcome to Island Art Hawaiʻi Newsletter!');
+
+      $message = "
+        <div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>
+          <div style='background: linear-gradient(135deg, #3b82f6, #14b8a6); padding: 40px 20px; text-align: center; border-radius: 12px 12px 0 0;'>
+            <h1 style='color: white; margin: 0; font-size: 28px;'>Aloha, {$data['name']}! 🌺</h1>
+            <p style='color: #bfdbfe; margin: 10px 0 0 0; font-size: 18px;'>Welcome to our art ʻohana!</p>
+          </div>
+
+          <div style='background: white; padding: 40px 20px; border-radius: 0 0 12px 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);'>
+            <p style='color: #374151; font-size: 16px; line-height: 1.6; margin-bottom: 20px;'>
+              Thank you for joining our community of art lovers and creators across Hawaiʻi! You'll now receive our <strong>" . ucfirst($data['frequency']) . "</strong> updates featuring:
+            </p>
+
+            <ul style='color: #374151; font-size: 16px; line-height: 1.8; margin-bottom: 30px;'>
+              <li>🎨 Featured local artists and their stories</li>
+              <li>🖼️ Gallery exhibitions and art shows</li>
+              <li>🌴 Cultural events across the islands</li>
+              <li>📰 Latest art news and community highlights</li>
+              <li>🎭 Exclusive behind-the-scenes content</li>
+            </ul>
+
+            <div style='background: #f3f4f6; padding: 20px; border-radius: 8px; margin-bottom: 30px;'>
+              <p style='color: #6b7280; font-size: 14px; margin: 0; text-align: center;'>
+                <strong>Next Newsletter:</strong> Keep an eye out for your first edition coming soon!
+              </p>
+            </div>
+
+            <div style='text-align: center;'>
+              <p style='color: #374151; font-size: 16px; margin-bottom: 20px;'>
+                Mahalo for supporting Hawaiʻi's vibrant art community!
+              </p>
+              <p style='color: #6b7280; font-size: 14px; margin: 0;'>
+                The Island Art Hawaiʻi Team<br>
+                <a href='mailto:hello@islandart.com' style='color: #3b82f6;'>hello@islandart.com</a>
+              </p>
+            </div>
+
+            <hr style='border: none; border-top: 1px solid #e5e7eb; margin: 30px 0;'>
+
+            <p style='color: #9ca3af; font-size: 12px; text-align: center; margin: 0;'>
+              You can update your preferences or unsubscribe at any time by replying to this email.
+            </p>
+          </div>
+        </div>
+      ";
+
+      $email->setMessage($message);
+      $email->send();
+
+    } catch (\Exception $e) {
+      // Log email error but don't fail the subscription
+      log_message('warning', 'Failed to send welcome email: ' . $e->getMessage());
+    }
+  }
+
+  /**
+   * Send admin notification about new newsletter subscription
+   */
+  private function sendSubscriptionNotification($data)
+  {
+    $email = \Config\Services::email();
+
+    try {
+      $email->setFrom('noreply@islandart.com', 'Island Art Newsletter');
+      $email->setTo('admin@islandart.com'); // Admin email
+      $email->setSubject('New Newsletter Subscription - ' . $data['name']);
+
+      $message = "
+        <h2>New Newsletter Subscription</h2>
+        <p><strong>Name:</strong> {$data['name']}</p>
+        <p><strong>Email:</strong> {$data['email']}</p>
+        <p><strong>Frequency:</strong> {$data['frequency']}</p>
+        <p><strong>Interests:</strong> {$data['interests']}</p>
+        <p><strong>Subscription Date:</strong> " . date('Y-m-d H:i:s') . "</p>
+        <br>
+        <p>This subscriber was added to the newsletter list.</p>
+      ";
+
+      $email->setMessage($message);
+      $email->send();
+
+    } catch (\Exception $e) {
+      // Log email error but don't fail the subscription
+      log_message('warning', 'Failed to send subscription notification email: ' . $e->getMessage());
+    }
   }
 
   /**

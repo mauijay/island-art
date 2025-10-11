@@ -36,8 +36,8 @@
         </div>
 
         <div class="mt-8 md:mt-0 md:ml-8 flex-shrink-0">
-          <a href="#"
-            class="group inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-900 font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+          <button type="button" id="subscribeNowBtn"
+            class="group inline-flex items-center px-8 py-4 bg-white hover:bg-gray-50 text-gray-900 font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer">
             <span class="mr-3">Subscribe Now</span>
             <div class="relative">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
@@ -45,7 +45,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
               </svg>
             </div>
-          </a>
+          </button>
 
           <!-- Additional visual elements -->
           <div class="mt-4 flex items-center justify-center md:justify-start space-x-4">
@@ -126,12 +126,11 @@
     <div class="flex flex-col items-center justify-between sm:flex-row">
       <div class="flex items-center">
         <img src="/uploads/images/logo.png"
-          alt="round logo image of palm tree, beach and sunset for <?= config('App')->siteName ?>"
-          class="h-48 w-auto mr-3">
+          alt="round logo image of palm tree, beach and sunset for <?= site_title() ?>" class="h-48 w-auto mr-3">
       </div>
       <div
         class="flex flex-col md:flex-row items-center justify-between mt-4 text-sm text-gray-500 dark:text-gray-300 sm:mt-0 gap-4">
-        <?php if (!empty(config('App')->copyrightHolder)): ?>
+        <?php if (!empty(copyright_holder())): ?>
           <div class="flex-1 text-xs md:text-sm p-3 sm:p-2 lg:p-1 md:pl-6">Copyright &copy;
             <?= date("Y") . '~' . date("Y") + 1; ?>
             <?= env('app.name', '808biz, Inc.') ?> - v<?= app_version() ?> - All Rights Reserved | <a
@@ -139,7 +138,7 @@
               href="https://808.biz/?utm_source=808bs&utm_medium=footer&utm_campaign=website-redesign&utm_term=calendar%20scheduling%20tools&utm_content=salary-alert-1-allsalaries"
               target="_blank" rel="noopener">808biz</a>
             <p class="m-0">Developed and Maintained by <a href="https://808businesssolutions.com/" target="_blank"
-                title="Hawaii Business Development"><?= config('App')->copyrightHolder ?></a></p>
+                title="Hawaii Business Development"><?= copyright_holder() ?></a></p>
           </div>
         <?php endif ?>
         <div class="flex-1 md:text-right text-xs md:text-sm p-3 sm:p-2 lg:p-1">

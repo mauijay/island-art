@@ -2,10 +2,10 @@
   <div class="flex items-center justify-between">
     <div class="flex items-center">
       <a class="flex items-center hover:opacity-80 transition-opacity duration-300" href="/">
-        <img src="/uploads/images/logo1.png" alt="<?= config('App')->siteName ?>" class="h-8 w-auto mr-3 lg:h-10">
+        <img src="/uploads/images/logo1.png" alt="<?= site_title() ?>" class="h-8 w-auto mr-3 lg:h-10">
         <span
           class="text-xl font-bold text-gray-800 hover:text-gray-700 dark:text-white dark:hover:text-gray-300 lg:text-2xl">
-          <?= config('App')->siteName ?>
+          <?= site_title() ?>
         </span>
       </a>
     </div>

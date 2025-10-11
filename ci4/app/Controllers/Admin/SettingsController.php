@@ -112,7 +112,7 @@ class SettingsController extends BaseController
         switch ($section) {
             case 'general':
                 return [
-                    'site_name' => setting('App.siteName') ?? 'Island Art',
+                    'site_name' => site_title(),
                     'site_description' => setting('App.siteDescription') ?? 'Discover Hawaiian Art',
                     'site_keywords' => setting('App.siteKeywords') ?? 'hawaii, art, gallery, artists',
                     'contact_email' => setting('App.contactEmail') ?? 'info@islandart.com',

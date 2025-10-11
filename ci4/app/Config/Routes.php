@@ -3,12 +3,12 @@
 use App\Controllers\ApiController;
 use App\Controllers\ArtistsController;
 use App\Controllers\BlogsController;
-use App\Controllers\CalendarController;
+use App\Controllers\DashboardController;
+use App\Controllers\EventsController;
 use App\Controllers\ExhibitionsController;
 use App\Controllers\GalleriesController;
 use App\Controllers\HomeController;
 use App\Controllers\LegalController;
-use App\Controllers\DashboardController;
 use CodeIgniter\Router\RouteCollection;
 
 
@@ -19,7 +19,19 @@ use CodeIgniter\Router\RouteCollection;
 //$routes->get('/', 'Home::index'); --- IGNORE ---
 $routes->get('/', [HomeController::class, 'index'], ['as' => 'home']);
 $routes->get('contact', [HomeController::class, 'contact'], ['as' => 'contact']);
-$routes->get('calendar', [CalendarController::class, 'index'], ['as' => 'calendar']);
+
+// Events routes
+$routes->get('events', [EventsController::class, 'index'], ['as' => 'events']);
+$routes->get('events/calendar', [EventsController::class, 'calendar'], ['as' => 'events.calendar']);
+$routes->get('events/(:segment)', [EventsController::class, 'show/$1'], ['as' => 'events.show']);
+
+// API routes for events
+$routes->get('api/events', [EventsController::class, 'apiEvents'], ['as' => 'api.events']);
+$routes->get('api/calendar', [EventsController::class, 'apiCalendar'], ['as' => 'api.calendar']);
+
+// Legacy calendar route (redirect to events)
+$routes->get('calendar', [EventsController::class, 'index'], ['as' => 'calendar']);
+
 $routes->get('artists', [ArtistsController::class, 'index'], ['as' => 'artists']);
 // Galleries
 $routes->get('galleries', [GalleriesController::class, 'index'], ['as' => 'galleries']);
@@ -42,6 +54,7 @@ $routes->post('exhibitions/(:num)/delete', [ExhibitionsController::class, 'delet
 $routes->get('api/test', [ApiController::class, 'test']);
 $routes->get('api/artworks', [ApiController::class, 'getArtworks']);
 $routes->post('api/submit-artwork', [ApiController::class, 'submitArtwork']);
+$routes->post('api/subscribe-newsletter', [ApiController::class, 'subscribeNewsletter']);
 // News and Blogs
 $routes->get('blogs', [BlogsController::class, 'index'], ['as' => 'news']);
 // Legal Stuff

@@ -14,24 +14,13 @@ class ArtistModel extends Model {
 
   protected $allowedFields = [
     'user_id',
-    'first_name',
-    'last_name',
     'artist_name',
-    'email',
-    'phone',
-    'website',
     'social_media',
     'biography',
     'artist_statement',
     'style',
     'medium',
     'experience_years',
-    'location',
-    'address',
-    'city',
-    'state',
-    'zip_code',
-    'country',
     'profile_image',
     'commission_rate',
     'status',
@@ -57,11 +46,8 @@ class ArtistModel extends Model {
   protected $deletedField = 'deleted_at';
 
   protected $validationRules = [
-    'first_name' => 'required|min_length[2]|max_length[100]',
-    'last_name' => 'required|min_length[2]|max_length[100]',
-    'email' => 'required|valid_email|max_length[255]|is_unique[artists.email,id,{id}]',
-    'phone' => 'permit_empty|max_length[20]',
-    'website' => 'permit_empty|valid_url|max_length[255]',
+    'user_id' => 'required|integer|is_not_unique[users.id]',
+    'artist_name' => 'permit_empty|max_length[255]',
     'biography' => 'permit_empty|max_length[5000]',
     'artist_statement' => 'permit_empty|max_length[5000]',
     'style' => 'permit_empty|max_length[100]',
@@ -72,20 +58,18 @@ class ArtistModel extends Model {
   ];
 
   protected $validationMessages = [
-    'first_name' => [
-      'required' => 'First name is required',
-      'min_length' => 'First name must be at least 2 characters long',
-      'max_length' => 'First name cannot exceed 100 characters'
+    'user_id' => [
+      'required' => 'User ID is required',
+      'integer' => 'User ID must be a valid integer',
+      'is_not_unique' => 'User must exist in the system'
     ],
-    'last_name' => [
-      'required' => 'Last name is required',
-      'min_length' => 'Last name must be at least 2 characters long',
-      'max_length' => 'Last name cannot exceed 100 characters'
+    'artist_name' => [
+      'max_length' => 'Artist name cannot exceed 255 characters'
     ],
-    'email' => [
-      'required' => 'Email address is required',
-      'valid_email' => 'Please provide a valid email address',
-      'is_unique' => 'This email address is already registered'
+    'commission_rate' => [
+      'decimal' => 'Commission rate must be a valid decimal',
+      'greater_than_equal_to' => 'Commission rate cannot be negative',
+      'less_than_equal_to' => 'Commission rate cannot exceed 100%'
     ]
   ];
 

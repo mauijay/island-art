@@ -1,6 +1,7 @@
 #-------------------------
 # Local server files
 #-------------------------
+docs
 docker-compose.override.yml
 Homestead.json
 Homestead.yaml

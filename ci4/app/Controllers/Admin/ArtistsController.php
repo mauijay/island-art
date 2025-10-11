@@ -23,9 +23,9 @@ class ArtistsController extends BaseController {
       'pageTitle' => 'Artists',
       'description' => 'Manage artist profiles and information',
       'breadcrumbs' => [
-          ['title' => 'Dashboard', 'url' => route_to('admin.dashboard')],
-          ['title' => 'Artists']
-        ],
+        ['title' => 'Dashboard', 'url' => route_to('admin.dashboard')],
+        ['title' => 'Artists']
+      ],
       'artists' => $this->getArtists(),
     ];
 
@@ -39,10 +39,10 @@ class ArtistsController extends BaseController {
       'pageTitle' => 'Add New Artist',
       'description' => 'Create a new artist profile',
       'breadcrumbs' => [
-          ['title' => 'Dashboard', 'url' => route_to('admin.dashboard')],
-          ['title' => 'Artists', 'url' => route_to('admin.artists')],
-          ['title' => 'Add New Artist']
-        ],
+        ['title' => 'Dashboard', 'url' => route_to('admin.dashboard')],
+        ['title' => 'Artists', 'url' => route_to('admin.artists')],
+        ['title' => 'Add New Artist']
+      ],
     ];
 
     return view('admin/artists/create', $data);
@@ -132,10 +132,10 @@ class ArtistsController extends BaseController {
       'pageTitle' => $artist['name'],
       'description' => 'View artist profile and manage their artwork',
       'breadcrumbs' => [
-          ['title' => 'Dashboard', 'url' => route_to('admin.dashboard')],
-          ['title' => 'Artists', 'url' => route_to('admin.artists')],
-          ['title' => $artist['name']]
-        ],
+        ['title' => 'Dashboard', 'url' => route_to('admin.dashboard')],
+        ['title' => 'Artists', 'url' => route_to('admin.artists')],
+        ['title' => $artist['name']]
+      ],
       'artist' => $artist,
       'artwork' => $this->getArtistArtwork($id),
     ];
@@ -157,11 +157,11 @@ class ArtistsController extends BaseController {
       'pageTitle' => 'Edit Artist',
       'description' => 'Edit artist profile information',
       'breadcrumbs' => [
-          ['title' => 'Dashboard', 'url' => route_to('admin.dashboard')],
-          ['title' => 'Artists', 'url' => route_to('admin.artists')],
-          ['title' => $artist['name'], 'url' => route_to('admin.artists.show', $id)],
-          ['title' => 'Edit']
-        ],
+        ['title' => 'Dashboard', 'url' => route_to('admin.dashboard')],
+        ['title' => 'Artists', 'url' => route_to('admin.artists')],
+        ['title' => $artist['name'], 'url' => route_to('admin.artists.show', $id)],
+        ['title' => 'Edit']
+      ],
       'artist' => $artist,
     ];
 
@@ -267,7 +267,8 @@ class ArtistsController extends BaseController {
       // Format the data for the view
       $formattedArtists = [];
       foreach ($artists as $artist) {
-        $socialMedia = !empty($artist['social_media']) ? json_decode($artist['social_media'], true) : [];
+        // social_media is already decoded by model casting, no need to json_decode
+        $socialMedia = !empty($artist['social_media']) ? (array) $artist['social_media'] : [];
 
         $formattedArtists[] = [
           'id' => $artist['id'],
@@ -307,7 +308,8 @@ class ArtistsController extends BaseController {
       // Get artwork count for this artist
       $artworkCount = $this->artworkModel->where('artist_id', $id)->countAllResults();
 
-      $socialMedia = !empty($artist['social_media']) ? json_decode($artist['social_media'], true) : [];
+      // social_media is already decoded by model casting, no need to json_decode
+      $socialMedia = !empty($artist['social_media']) ? (array) $artist['social_media'] : [];
 
       return [
         'id' => $artist['id'],

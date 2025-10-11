@@ -12,6 +12,7 @@
   <?= $this->renderSection('modals') ?>
   <?= $this->include('modals/logout') ?>
   <?= $this->include('modals/submit_art') ?>
+  <?= $this->include('modals/newsletter') ?>
   <?= $this->include('partials/_js') ?>
   <?= $this->renderSection('scripts') ?>
   <?= $this->include('partials/_notifications.php') ?>

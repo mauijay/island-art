@@ -14,10 +14,10 @@
     "prettier:fix": "prettier --write .",
     "format": "npm run prettier:fix && composer run cs-fix",
     "sync-version": "node scripts/sync-version.js",
-    "bump:patch": "npm version patch && npm run sync-version",
-    "bump:minor": "npm version minor && npm run sync-version",
-    "bump:major": "npm version major && npm run sync-version",
-    "version": "npm run sync-version && git add ci4/composer.json",
+    "bump:patch": "npm version patch",
+    "bump:minor": "npm version minor",
+    "bump:major": "npm version major",
+    "version": "npm run sync-version && git add ci4/composer.json README.md ci4/.env.example",
     "postversion": "git push && git push --tags"
   },
   "devDependencies": {

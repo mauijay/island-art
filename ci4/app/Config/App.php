@@ -7,25 +7,6 @@ use CodeIgniter\Config\BaseConfig;
 class App extends BaseConfig {
   /**
    * --------------------------------------------------------------------------
-   * Site Name
-   * --------------------------------------------------------------------------
-   *
-   * The name of your site.
-   */
-  public string $siteName = 'Island Art News';
-
-  /**
-   * --------------------------------------------------------------------------
-   * Copyright Holder
-   * --------------------------------------------------------------------------
-   *
-   * Who should be listed as the copyright holder.
-   * Displays in footer. Leave empty for no display.
-   */
-  public string $copyrightHolder = '808 Business Solutions, llc';
-
-  /**
-   * --------------------------------------------------------------------------
    * Base Site URL
    * --------------------------------------------------------------------------
    *

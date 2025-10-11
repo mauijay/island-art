@@ -23,44 +23,27 @@ class EventModel extends Model {
     'end_date',
     'start_time',
     'end_time',
-    'is_all_day',
-    'location',
-    'address',
-    'city',
-    'state',
-    'zip_code',
-    'country',
-    'latitude',
-    'longitude',
+    'venue_name',
+    'venue_address',
+    'venue_city',
+    'venue_state',
+    'venue_zip',
+    'venue_island',
+    'max_capacity',
     'ticket_price',
-    'is_free',
-    'max_attendees',
-    'current_attendees',
+    'registration_required',
     'featured_image',
     'status',
-    'is_featured',
-    'requires_rsvp',
-    'contact_email',
-    'contact_phone',
-    'website_url',
-    'social_media',
-    'meta_data'
+    'is_featured'
   ];
 
   protected array $casts = [
-    'gallery_id' => 'integer',
-    'organizer_id' => 'integer',
-    'latitude' => 'float',
-    'longitude' => 'float',
-    'ticket_price' => 'float',
-    'is_all_day' => 'boolean',
-    'is_free' => 'boolean',
-    'max_attendees' => 'integer',
-    'current_attendees' => 'integer',
-    'is_featured' => 'boolean',
-    'requires_rsvp' => 'boolean',
-    'social_media' => 'json',
-    'meta_data' => 'json'
+    'gallery_id' => '?integer',
+    'organizer_id' => '?integer',
+    'ticket_price' => '?float',
+    'max_capacity' => '?integer',
+    'registration_required' => 'boolean',
+    'is_featured' => 'boolean'
   ];
 
   protected $useTimestamps = true;
@@ -74,9 +57,10 @@ class EventModel extends Model {
     'slug' => 'required|alpha_dash|max_length[255]|is_unique[events.slug,id,{id}]',
     'start_date' => 'required|valid_date',
     'end_date' => 'permit_empty|valid_date',
-    'event_type' => 'permit_empty|in_list[exhibition,workshop,lecture,opening,festival,auction,tour,other]',
+    'event_type' => 'permit_empty|in_list[exhibition,workshop,lecture,opening,auction,fair,other]',
     'ticket_price' => 'permit_empty|decimal|greater_than_equal_to[0]',
-    'max_attendees' => 'permit_empty|integer|greater_than[0]',
+    'max_capacity' => 'permit_empty|integer|greater_than[0]',
+    'venue_island' => 'permit_empty|in_list[Oahu,Maui,Big Island,Kauai,Molokai,Lanai,Other]',
     'status' => 'permit_empty|in_list[draft,published,cancelled,completed]'
   ];
 
